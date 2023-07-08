@@ -4,5 +4,8 @@
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["Autoclose", "Autostale"]
+  "cSpell.words": ["Autoclose", "Autostale"],
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  }
 }
