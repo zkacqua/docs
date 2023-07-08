@@ -10,14 +10,20 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "yarn husky install",
-    "pre-commit": "yarn lint:check",
+    "pre-commit": "yarn lint:check && yarn test:ci && yarn e2e:headless",
     "eslint:check": "eslint \"*.{js,jsx,ts,tsx}\"",
     "eslint:fix": "eslint \"*.{js,jsx,ts,tsx}\" --fix",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write . --ignore-unknown",
     "lint:check": "yarn eslint:check && yarn prettier:check",
     "lint:fix": "yarn eslint:fix && yarn prettier:write",
-    "lint-staged:check": "lint-staged"
+    "lint-staged:check": "lint-staged",
+    "e2e": "start-server-and-test dev http://localhost:3000 \"cypress open --e2e\"",
+    "e2e:headless": "start-server-and-test dev http://localhost:3000 \"cypress run --e2e\"",
+    "component": "cypress open --component",
+    "component:headless": "cypress run --component",
+    "test": "jest --watch",
+    "test:ci": "jest --ci"
   },
   "dependencies": {
     "@types/node": "20.4.0",
@@ -31,12 +37,20 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/testing-library__jest-dom": "^5.14.5",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "cypress": "^12.17.0",
     "eslint-config-prettier": "^8.8.0",
     "git-cz": "^4.9.0",
     "husky": "^8.0.3",
+    "jest": "^29.6.1",
+    "jest-environment-jsdom": "^29.6.1",
     "lint-staged": "^13.2.3",
-    "prettier": "^3.0.0"
+    "prettier": "^3.0.0",
+    "start-server-and-test": "^2.0.0"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

@@ -7,5 +7,15 @@
   "cSpell.words": ["Autoclose", "Autostale"],
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
-  }
+  },
+  "[ignore]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "jest.autoRun": {
+    "watch": false,
+    "onSave": "test-only",
+    "onStartup": ["all-tests"]
+  },
+  "jest.debugMode": true,
+  "jest.showCoverageOnLoad": true
 }
