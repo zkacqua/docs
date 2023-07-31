@@ -1,24 +1,24 @@
 enhancement:
-  - (feat|request|new|improve|create|build)
+  - '/(feat|request|new|improve|create|build)/i'
 bug:
-  - (bug|fix|issue|solve|correct)
+  - '/(bug|fix|issue|solve|correct)/i'
 configuration:
-  - (config)
+  - '/(config)/i'
 documentation:
-  - (docs|document|readme)
+  - '/(docs|document|readme)/i'
 duplicate:
-  - (duplicate)
+  - '/(duplicate)/i'
 github_actions:
-  - (github_actions|github)
+  - '/(github_actions|github)/'
 github:
-  - (github)
+  - '/(github)/i'
 help wanted:
-  - (help|need|info)
+  - '/(help|need|info)/i'
 invalid:
-  - (invalid)
+  - '/(invalid)/i'
 question:
-  - (query|\?|question|ask)
+  - '/(query|\?|question|ask)/i'
 wontfix:
-  - (nofix|nosolution)
+  - '/(nofix|nosolution)/i'
 critical:
-  - (critical|urgent)
+  - '/(critical|urgent)/i'
