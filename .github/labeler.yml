@@ -1,0 +1,52 @@
+configuration:
+  - '.github/*.yml'
+  - '.husky/*'
+  - '.vscode/*'
+  - 'jest.config.js'
+  - 'jest.setup.js'
+  - 'next.config.js'
+  - '.eslintignore'
+  - '.eslintrc.json'
+  - '.prettierignore'
+  - '.prettierrc.json'
+  - '**/tsconfig.json'
+eslint-rules:
+  - '.eslintignore'
+  - '.eslintrc.json'
+prettier-rules:
+  - '.prettierignore'
+  - '.prettierrc.json'
+git:
+  - '**/.gitignore'
+  - '**/.gitkeep'
+documentation:
+  - '**/*.md'
+  - '**/*.txt'
+github:
+  - any: ['.github/*', '!.github/workflows/']
+github_actions:
+  - '.github/workflows/*'
+policy:
+  - '.github/ISSUE_TEMPLATE/*'
+  - '.github/PULL_TEMPLATE/*'
+  - 'LICENSE.txt'
+  - 'SECURITY.md'
+vscode:
+  - '.vscode/*'
+storybook:
+  - '.storybook/*'
+stories:
+  - 'src/**/*.stories.tsx'
+src:
+  - 'src/*'
+  - 'public/*'
+tests:
+  - '__tests__/*'
+cypress:
+  - 'cypress/*'
+tsconfig:
+  - '**/tsconfig.json'
+docker:
+  - '**/Dockerfile'
+  - '**/docker-compose.yml'
+  - '**/docker-compose.*.yml'

@@ -1,0 +1,24 @@
+enhancement:
+  - (feat|request|new|improve)
+bug:
+  - (bug|fix|issue|solve|correct)
+configuration:
+  - (config)
+documentation:
+  - (docs|document|readme)
+duplicate:
+  - (duplicate)
+github_actions:
+  - (github_actions|github)
+github:
+  - (github)
+help wanted:
+  - (help|need|info)
+invalid:
+  - (invalid)
+question:
+  - (query|?|question|ask)
+wontfix:
+  - (nofix|nosolution)
+critical:
+  - (critical|urgent)
