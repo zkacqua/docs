@@ -1,5 +1,5 @@
 enhancement:
-  - (feat|request|new|improve)
+  - (feat|request|new|improve|create|build)
 bug:
   - (bug|fix|issue|solve|correct)
 configuration:
@@ -17,7 +17,7 @@ help wanted:
 invalid:
   - (invalid)
 question:
-  - (query|?|question|ask)
+  - (query|\?|question|ask)
 wontfix:
   - (nofix|nosolution)
 critical:
