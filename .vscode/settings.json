@@ -4,7 +4,7 @@
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["Autoclose", "Autostale"],
+  "cSpell.words": ["Autoclose", "Autostale", "tailwindcss"],
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
   },
@@ -17,5 +17,8 @@
     "onStartup": ["all-tests"]
   },
   "jest.debugMode": true,
-  "jest.showCoverageOnLoad": true
+  "jest.showCoverageOnLoad": true,
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
 }
