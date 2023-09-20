@@ -26,7 +26,7 @@
     "test:ci": "jest --ci"
   },
   "dependencies": {
-    "@types/node": "20.5.9",
+    "@types/node": "20.6.3",
     "@types/react": "18.2.12",
     "@types/react-dom": "18.2.5",
     "eslint": "8.48.0",
