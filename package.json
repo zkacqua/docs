@@ -23,7 +23,8 @@
     "component": "cypress open --component",
     "component:headless": "cypress run --component",
     "test": "jest --watch",
-    "test:ci": "jest --ci"
+    "test:ci": "jest --ci",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@types/node": "20.5.9",
