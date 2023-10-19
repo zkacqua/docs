@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "module": "CommonJS",
+    "target": "ESNext",
+    "outDir": "./.docs-server",
+    "rootDir": "./server",
+    "removeComments": true,
+    "allowJs": true,
+    "checkJs": true
+  },
+  "include": ["server/**/*"],
+  "exclude": ["node_modules", "__tests__"]
+}
