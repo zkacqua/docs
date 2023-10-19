@@ -37,3 +37,6 @@ next-env.d.ts
 # cypress
 /cypress/screenshots
 /cypress/videos
+
+# docs-server
+.docs-server
