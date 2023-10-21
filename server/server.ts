@@ -2,6 +2,12 @@ import * as express from 'express'
 import * as http from 'http'
 import indexRoute from './routes/index'
 
+type ServerOptions = {
+  port: number
+  debug: boolean
+  env: 'prod' | 'uat' | 'stage' | 'qa' | 'dev'
+}
+
 class Server extends http.Server {
   public app: express.Application
 
@@ -19,8 +25,8 @@ class Server extends http.Server {
     this.setRouter()
   }
 
-  async start() {
-    this.app.set('port', 4004)
+  async start(options: ServerOptions) {
+    this.app.set('port', options.port)
     this.setMiddleware()
     return this.app.listen(this.app.get('port'), () => {
       console.log(`server : http://localhost:${this.app.get('port')}`)
