@@ -4,7 +4,7 @@ import {
   transports,
   type Logger as WinstonLogger,
 } from 'winston'
-import { EnvMode } from '../types'
+import { EnvMode, EnvModeType } from '../types'
 const { timestamp, combine, colorize, printf, errors, json } = format
 
 type LoggerOptions = {
@@ -22,7 +22,7 @@ class Logger {
   private static instance: Logger
   private logger?: WinstonLogger
 
-  constructor() {}
+  private constructor() {}
   public static getInstance(): Logger {
     if (!Logger.instance) {
       Logger.instance = new Logger()
@@ -36,7 +36,7 @@ class Logger {
         colorize(),
         timestamp({ format: 'YYYY-MM-DD HH:mm:ss.SSS a' }),
         errors({ stack: true }),
-        options?.mode != undefined && options?.mode !== 'dev'
+        options?.mode != undefined && options?.mode !== EnvModeType.LOCAL
           ? json()
           : printf(({ level, message, timestamp, stack }) => {
               return `${timestamp} ${level}: ${stack || message}`
@@ -44,7 +44,10 @@ class Logger {
       ),
       transports: [
         new transports.Console({
-          level: options?.debug ? 'debug' : options?.level ?? 'info',
+          level:
+            options?.debug || options?.mode === EnvModeType.LOCAL
+              ? 'debug'
+              : options?.level ?? 'info',
         }),
       ],
     })

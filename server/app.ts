@@ -4,7 +4,7 @@ import chalk from 'chalk'
 import dotenv from 'dotenv'
 import path from 'path'
 import yargs from 'yargs'
-import config from './global/env'
+import Config from './global/config'
 import Server from './server'
 import { EnvMode } from './types'
 import version from './version'
@@ -27,9 +27,9 @@ yargs
     mode: {
       alias: 'm',
       demandOption: false,
-      default: 'dev',
+      default: 'local',
       describe:
-        'mode is required for app to run on which mode, this value decides on which environment app is running and what should be behavior for that. By default its value is `dev`, mode value can be `prod`, `uat`, `stage`, `qa` or `dev`',
+        'mode is required for app to run on which mode, this value decides on which environment app is running and what should be behavior for that. By default its value is `local`, mode value can be `prod`, `uat`, `stage`, `qa`, `dev` or `local`',
       type: 'string',
     },
     envFile: {
@@ -65,8 +65,16 @@ yargs
       try {
         const envFile = argv.envFile
         const envFilePath = path.resolve(process.cwd(), envFile)
-        dotenv.config({ path: envFilePath })
-        if (!['prod', 'uat', 'stage', 'qa', 'dev'].includes(argv.mode)) {
+        const { error: envError, parsed: env } = dotenv.config({
+          path: envFilePath,
+        })
+        if (envError) {
+          throw new Error('DotEnv parse failed')
+        }
+        const config = Config.getInstance().initConfigFromEnv(env)
+        if (
+          !['prod', 'uat', 'stage', 'qa', 'dev', 'local'].includes(argv.mode)
+        ) {
           throw new Error('Incorrect mode value')
         }
         if (!argv.action) {
@@ -75,7 +83,7 @@ yargs
         switch (argv.action as 'start' | 'stop') {
           case 'start': {
             await server.start({
-              port: config.PORT,
+              port: Number(config.getConfig('PORT') || 4000),
               debug: argv.debug,
               envMode: argv.mode as EnvMode,
             })

@@ -11,7 +11,9 @@
     "INITDB",
     "maxlength",
     "mkver",
-    "tailwindcss"
+    "resave",
+    "tailwindcss",
+    "zkacqua"
   ],
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
