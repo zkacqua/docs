@@ -1,6 +1,7 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": true,
+    "source.organizeImports": "always"
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -9,6 +10,7 @@
     "Autostale",
     "INITDB",
     "maxlength",
+    "mkver",
     "tailwindcss"
   ],
   "[shellscript]": {

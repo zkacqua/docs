@@ -9,7 +9,8 @@
     "rootDir": "./server",
     "removeComments": true,
     "allowJs": true,
-    "checkJs": true
+    "checkJs": true,
+    "esModuleInterop": true
   },
   "include": ["server/**/*"],
   "exclude": ["node_modules", "__tests__"]

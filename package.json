@@ -4,12 +4,13 @@
   "private": true,
   "license": "GPL-3.0",
   "scripts": {
+    "app:prebuild": "mkver src/version.ts",
     "commit": "git-cz",
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "yarn app:prebuild && next dev",
+    "build": "yarn app:prebuild && next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "yarn husky install",
+    "postinstall": "yarn husky install && yarn app:prebuild && yarn server:prebuild",
     "pre-commit": "yarn lint:check && yarn test:ci && yarn e2e:headless",
     "eslint:check": "eslint \"*.{js,jsx,ts,tsx}\"",
     "eslint:fix": "eslint \"*.{js,jsx,ts,tsx}\" --fix",
@@ -24,9 +25,11 @@
     "component:headless": "cypress run --component",
     "test": "jest --watch",
     "test:ci": "jest --ci",
-    "server:build": "rimraf .docs-server && tsc -p tsconfig.server.json",
-    "server:start": "node .docs-server/app.js",
-    "server:dev": "rimraf .docs-server && tsc-watch --noClear -p ./tsconfig.server.json --onSuccess \"node .docs-server/app.js\""
+    "server:build": "yarn server:prebuild && rimraf .docs-server && tsc -p tsconfig.server.json",
+    "server:start": "yarn server:prebuild && node .docs-server/app.js start",
+    "server:stop": "node .docs-server/app.js stop",
+    "server:dev": "yarn server:prebuild && rimraf .docs-server && tsc-watch --noClear -p ./tsconfig.server.json --onSuccess \"node .docs-server/app.js start\"",
+    "server:prebuild": "mkver server/version.ts"
   },
   "dependencies": {
     "@types/node": "20.8.7",
@@ -70,14 +73,15 @@
     "@types/yargs": "^17.0.29",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "autoprefixer": "^10.4.16",
+    "chalk": "4.1.2",
     "cypress": "^13.3.2",
-    "chalk": "^5.3.0",
     "eslint-config-prettier": "^9.0.0",
     "git-cz": "^4.9.0",
     "husky": "^8.0.3",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^15.0.2",
+    "mkver": "^2.1.0",
     "nodemon": "^3.0.1",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
@@ -86,7 +90,8 @@
     "start-server-and-test": "^2.0.1",
     "tailwindcss": "^3.3.3",
     "ts-node": "^10.9.1",
-    "tsc-watch": "^6.0.4"
+    "tsc-watch": "^6.0.4",
+    "winston": "^3.11.0"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
