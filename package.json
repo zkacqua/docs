@@ -28,7 +28,7 @@
     "server:build": "yarn server:prebuild && rimraf .docs-server && tsc -p tsconfig.server.json",
     "server:start": "yarn server:prebuild && node .docs-server/app.js start",
     "server:stop": "node .docs-server/app.js stop",
-    "server:dev": "yarn server:prebuild && rimraf .docs-server && tsc-watch --noClear -p ./tsconfig.server.json --onSuccess \"node .docs-server/app.js start\"",
+    "server:dev": "yarn server:prebuild && rimraf .docs-server && tsc-watch --noClear -p ./tsconfig.server.json --onSuccess \"node .docs-server/app.js start --debug true\"",
     "server:prebuild": "mkver server/version.ts"
   },
   "dependencies": {

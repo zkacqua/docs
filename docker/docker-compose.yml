@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:?error}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:?error}
+    ports:
+      - ${MONGO_EXPORTED_PORT:?error}:27017
+    volumes:
+      - mongodb_data:/data/db
+  bitnami-redis:
+    image: 'bitnami/redis:latest'
+    ports:
+      - '${REDIS_EXPORTED_PORT:?error}:6379'
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?error}
+      REDIS_DISABLE_COMMANDS: FLUSHDB,FLUSHALL,CONFIG
+    volumes:
+      - redis_data:/bitnami
+    restart: always
+    healthcheck:
+      test: 'exit 0'
+volumes:
+  mongodb_data:
+  redis_data:

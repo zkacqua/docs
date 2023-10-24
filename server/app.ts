@@ -6,6 +6,7 @@ import path from 'path'
 import yargs from 'yargs'
 import Config from './global/config'
 import Server from './server'
+import SocketIO from './socketio'
 import { EnvMode } from './types'
 import version from './version'
 
@@ -82,11 +83,15 @@ yargs
         }
         switch (argv.action as 'start' | 'stop') {
           case 'start': {
-            await server.start({
-              port: Number(config.getConfig('PORT') || 4000),
-              debug: argv.debug,
-              envMode: argv.mode as EnvMode,
-            })
+            await server
+              .start({
+                port: Number(config.getConfig('PORT') || 4000),
+                debug: argv.debug,
+                envMode: argv.mode as EnvMode,
+              })
+              .then((httpServer) => {
+                SocketIO.getInstance().start(httpServer, server.app)
+              })
             break
           }
           case 'stop': {
