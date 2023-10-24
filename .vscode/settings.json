@@ -12,6 +12,7 @@
     "maxlength",
     "mkver",
     "resave",
+    "socketio",
     "tailwindcss",
     "zkacqua"
   ],

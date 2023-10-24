@@ -4,7 +4,7 @@ import chalk from 'chalk'
 import dotenv from 'dotenv'
 import path from 'path'
 import yargs from 'yargs'
-import Config from './global/config'
+import Config, { EnvConfigKey } from './global/config'
 import Server from './server'
 import SocketIO from './socketio'
 import { EnvMode } from './types'
@@ -85,7 +85,7 @@ yargs
           case 'start': {
             await server
               .start({
-                port: Number(config.getConfig('PORT') || 4000),
+                port: Number(config.getConfig(EnvConfigKey.PORT) || 4000),
                 debug: argv.debug,
                 envMode: argv.mode as EnvMode,
               })

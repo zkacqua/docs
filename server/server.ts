@@ -1,3 +1,4 @@
+import RedisStore from 'connect-redis'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
@@ -10,8 +11,9 @@ import mongoose from 'mongoose'
 import morgan from 'morgan'
 import path from 'path'
 import process from 'process'
+import { createClient } from 'redis'
 import { type Logger as WinstonLogger } from 'winston'
-import Config from './global/config'
+import Config, { EnvConfigKey } from './global/config'
 import Logger from './global/logger'
 import indexRoute from './routes/index'
 import { EnvMode, EnvModeType, ServerOptions } from './types'
@@ -83,10 +85,12 @@ class Server extends http.Server {
       if (!this.envConfig) {
         throw new Error('EnvConfig not configured')
       }
-      const MONGODB_URL = this.envConfig.getConfig('MONGODB_URL')
-      const MONGODB_USER = this.envConfig.getConfig('MONGODB_USER')
-      const MONGODB_PASS = this.envConfig.getConfig('MONGODB_PASS')
-      const MONGODB_DB_NAME = this.envConfig.getConfig('MONGODB_DB_NAME')
+      const MONGODB_URL = this.envConfig.getConfig(EnvConfigKey.MONGODB_URL)
+      const MONGODB_USER = this.envConfig.getConfig(EnvConfigKey.MONGODB_USER)
+      const MONGODB_PASS = this.envConfig.getConfig(EnvConfigKey.MONGODB_PASS)
+      const MONGODB_DB_NAME = this.envConfig.getConfig(
+        EnvConfigKey.MONGODB_DB_NAME
+      )
       await mongoose.connect(MONGODB_URL, {
         user: MONGODB_USER,
         pass: MONGODB_PASS,
@@ -108,8 +112,7 @@ class Server extends http.Server {
     if (!this.envConfig) {
       throw new Error('EnvConfig not configured')
     }
-    const COOKIE_SECRET = this.envConfig.getConfig('COOKIE_SECRET')
-
+    const COOKIE_SECRET = this.envConfig.getConfig(EnvConfigKey.COOKIE_SECRET)
     if (options.mode !== EnvModeType.LOCAL) {
       this.app.use(hpp())
       this.app.use(helmet())
@@ -119,8 +122,29 @@ class Server extends http.Server {
           credentials: true,
         })
       )
+      const REDIS_DB = this.envConfig.getConfig(EnvConfigKey.REDIS_DB)
+      const REDIS_HOST = this.envConfig.getConfig(EnvConfigKey.REDIS_HOST)
+      const REDIS_PORT = this.envConfig.getConfig(EnvConfigKey.REDIS_PORT)
+      const REDIS_PASS = this.envConfig.getConfig(EnvConfigKey.REDIS_PASS)
+      const redisClient = createClient({
+        url: `redis://${REDIS_HOST}:${REDIS_PORT}`,
+        password: REDIS_PASS,
+        database: Number(REDIS_DB),
+        name: `docs-${options.mode}`,
+      })
+      const redisStore = new RedisStore({
+        client: redisClient,
+        prefix: `docs-${options.mode}:`,
+      })
+      redisClient.on('connect', () => {
+        this.log?.info('Redis server connected')
+      })
+      redisClient.on('disconnect', () => {
+        this.log?.info('Redis server disconnected')
+      })
       this.app.use(
         session({
+          store: redisStore,
           resave: false,
           saveUninitialized: false,
           secret: COOKIE_SECRET,
@@ -162,6 +186,8 @@ class Server extends http.Server {
   async start(options: ServerOptions): Promise<http.Server> {
     this.writePidFile(process.pid)
     this.app.set('port', options.port)
+    // this.app.set('views', path.join(__dirname, 'views'))
+    // this.app.set('view engine', 'ejs')
     this.setLogger()
     this.setEnvConfig()
     await this.setDatabase({ debug: options.debug, mode: options.envMode })

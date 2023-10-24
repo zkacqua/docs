@@ -13,3 +13,5 @@ updates:
     assignees:
       - 'zkacqua'
     open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: 'chalk'

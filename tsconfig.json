@@ -31,5 +31,5 @@
     ".next/types/**/*.ts",
     "global.d.ts"
   ],
-  "exclude": ["node_modules", "__tests__", "server"]
+  "exclude": ["node_modules", "__tests__", "server", "script"]
 }

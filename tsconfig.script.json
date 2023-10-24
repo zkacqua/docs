@@ -5,13 +5,12 @@
     "resolveJsonModule": true,
     "module": "CommonJS",
     "target": "ESNext",
-    "outDir": "./.docs-server",
-    "rootDir": "./server",
+    "rootDir": "./script",
     "removeComments": true,
     "allowJs": true,
     "checkJs": true,
     "esModuleInterop": true
   },
-  "include": ["server/**/*"],
-  "exclude": ["node_modules", "__tests__", "script"]
+  "include": ["script"],
+  "exclude": ["node_modules", "__tests__", "server", "src"]
 }

@@ -2,14 +2,20 @@ export interface IConfig {
   initConfigFromEnv(env: unknown): Config
 }
 
-export type EnvConfig = {
-  PORT: string
-  MONGODB_URL: string
-  MONGODB_USER: string
-  MONGODB_PASS: string
-  MONGODB_DB_NAME: string
-  COOKIE_SECRET: string
+export enum EnvConfigKey {
+  PORT = 'PORT',
+  MONGODB_URL = 'MONGODB_URL',
+  MONGODB_USER = 'MONGODB_USER',
+  MONGODB_PASS = 'MONGODB_PASS',
+  MONGODB_DB_NAME = 'MONGODB_DB_NAME',
+  COOKIE_SECRET = 'COOKIE_SECRET',
+  REDIS_DB = 'REDIS_DB',
+  REDIS_HOST = 'REDIS_HOST',
+  REDIS_PORT = 'REDIS_PORT',
+  REDIS_PASS = 'REDIS_PASS',
 }
+
+export type EnvConfig = Record<EnvConfigKey, string>
 
 class Config implements IConfig {
   private static instance: Config
@@ -23,29 +29,16 @@ class Config implements IConfig {
   }
 
   public initConfigFromEnv(env: unknown): Config {
-    if ((env as { PORT?: string })?.PORT == undefined) {
-      throw new Error('Env: PORT not found')
-    }
-    if ((env as { MONGODB_URL?: string })?.MONGODB_URL == undefined) {
-      throw new Error('Env: MONGODB_URL not found')
-    }
-    if ((env as { MONGODB_USER?: string })?.MONGODB_USER == undefined) {
-      throw new Error('Env: MONGODB_USER not found')
-    }
-    if ((env as { MONGODB_PASS?: string })?.MONGODB_PASS == undefined) {
-      throw new Error('Env: MONGODB_PASS not found')
-    }
-    if ((env as { MONGODB_DB_NAME?: string })?.MONGODB_DB_NAME == undefined) {
-      throw new Error('Env: MONGODB_DB_NAME not found')
-    }
-    if ((env as { COOKIE_SECRET?: string })?.COOKIE_SECRET == undefined) {
-      throw new Error('Env: COOKIE_SECRET not found')
-    }
+    Object.keys(EnvConfigKey).forEach((keyName) => {
+      if ((env as { [keyName: string]: string })?.[keyName] == undefined) {
+        throw new Error(`Env: ${keyName} not found`)
+      }
+    })
     this.envConfig = env as EnvConfig
     return Config.instance
   }
 
-  public getConfig(keyName: keyof EnvConfig): string {
+  public getConfig(keyName: keyof Record<EnvConfigKey, string>): string {
     return this.envConfig?.[keyName] as string
   }
 }
