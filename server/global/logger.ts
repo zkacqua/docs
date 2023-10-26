@@ -1,3 +1,4 @@
+import { SPLAT } from 'triple-beam'
 import {
   createLogger,
   format,
@@ -38,8 +39,15 @@ class Logger {
         errors({ stack: true }),
         options?.mode != undefined && options?.mode !== EnvModeType.LOCAL
           ? json()
-          : printf(({ level, message, timestamp, stack }) => {
-              return `${timestamp} ${level}: ${stack || message}`
+          : printf(({ level, message, timestamp, stack, [SPLAT]: splat }) => {
+              return `${timestamp} ${level}: ${stack || message} ${
+                splat
+                  ?.map((data?: unknown) =>
+                    typeof data === 'object' ? JSON.stringify(data) : data
+                  )
+                  ?.filter((data?: unknown) => data != undefined)
+                  ?.join(' ') ?? ''
+              }`
             })
       ),
       transports: [

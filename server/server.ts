@@ -9,14 +9,28 @@ import hpp from 'hpp'
 import http from 'http'
 import mongoose from 'mongoose'
 import morgan from 'morgan'
+import passport from 'passport'
 import path from 'path'
 import process from 'process'
 import { createClient } from 'redis'
 import { type Logger as WinstonLogger } from 'winston'
 import Config, { EnvConfigKey } from './global/config'
 import Logger from './global/logger'
+import PassportAuth from './passport'
 import indexRoute from './routes/index'
 import { EnvMode, EnvModeType, ServerOptions } from './types'
+
+declare module 'express' {
+  interface User {
+    uid: string
+  }
+}
+
+declare module 'express-session' {
+  export interface SessionData {
+    user: { uid: string }
+  }
+}
 
 class Server extends http.Server {
   private static PID_FILE: string = 'server.pid'
@@ -30,6 +44,12 @@ class Server extends http.Server {
     super(app)
     this.app = app
     this.pidFilePath = path.resolve(process.cwd(), Server.PID_FILE)
+  }
+
+  private setPassport() {
+    PassportAuth.getInstance().init()
+    this.app.use(passport.initialize())
+    this.app.use(passport.session())
   }
 
   private setRouter() {
@@ -179,15 +199,20 @@ class Server extends http.Server {
     this.app.use(cookieParser(COOKIE_SECRET))
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))
-
+    this.setPassport()
+    this.app.set(
+      'views',
+      options.mode === EnvModeType.LOCAL
+        ? path.join(process.cwd(), 'server/views')
+        : path.join(__dirname, 'views')
+    )
+    this.app.set('view engine', 'ejs')
     this.setRouter()
   }
 
   async start(options: ServerOptions): Promise<http.Server> {
     this.writePidFile(process.pid)
     this.app.set('port', options.port)
-    // this.app.set('views', path.join(__dirname, 'views'))
-    // this.app.set('view engine', 'ejs')
     this.setLogger()
     this.setEnvConfig()
     await this.setDatabase({ debug: options.debug, mode: options.envMode })

@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Router } from 'express'
+import routerV1 from './v1'
 
 const router = Router()
 
-router.get('/', (req, res) => {
-  res.send({ hello: 'world2' })
-})
+router.use('/api/v1', routerV1)
 
 export default router

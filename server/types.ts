@@ -14,3 +14,10 @@ export enum EnvModeType {
   DEV = 'dev',
   LOCAL = 'local',
 }
+
+export type SignupRequestBody = {
+  username: string
+  password: string
+  email: string
+  name: string
+}
