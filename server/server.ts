@@ -133,7 +133,8 @@ class Server extends http.Server {
       throw new Error('EnvConfig not configured')
     }
     const COOKIE_SECRET = this.envConfig.getConfig(EnvConfigKey.COOKIE_SECRET)
-    if (options.mode !== EnvModeType.LOCAL) {
+    const SESSION_STORE = this.envConfig.getConfig(EnvConfigKey.SESSION_STORE)
+    if (options.mode !== EnvModeType.LOCAL || SESSION_STORE === 'redis') {
       this.app.use(hpp())
       this.app.use(helmet())
       this.app.use(
@@ -152,6 +153,7 @@ class Server extends http.Server {
         database: Number(REDIS_DB),
         name: `docs-${options.mode}`,
       })
+      await redisClient.connect()
       const redisStore = new RedisStore({
         client: redisClient,
         prefix: `docs-${options.mode}:`,

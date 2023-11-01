@@ -13,6 +13,7 @@ export enum EnvConfigKey {
   REDIS_HOST = 'REDIS_HOST',
   REDIS_PORT = 'REDIS_PORT',
   REDIS_PASS = 'REDIS_PASS',
+  SESSION_STORE = 'SESSION_STORE',
 }
 
 export type EnvConfig = Record<EnvConfigKey, string>

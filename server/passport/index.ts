@@ -20,12 +20,12 @@ class PassportAuth implements IPassportAuth {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     passport.serializeUser((user: any, done) => {
       console.log('serialize user => ', user)
-      done(null, { uid: 'test' })
+      done(null, user)
     })
 
-    passport.deserializeUser((id, done) => {
-      console.log('deserialize user => ', id)
-      done(null, id as string)
+    passport.deserializeUser((user, done) => {
+      console.log('deserialize user => ', user)
+      done(null, user as Express.User)
     })
 
     this.useLocalStrategy()

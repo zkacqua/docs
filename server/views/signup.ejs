@@ -6,12 +6,16 @@
     <title>Document</title>
   </head>
   <body>
-    <form action="api/v1/auth/login/local" method="post">
+    <form action="api/v1/auth/signup/local" method="post">
+      <label for="current-name">Name</label>
+      <input type="text" name="name" id="current-name" />
       <label for="current-username">Username</label>
       <input type="text" name="username" id="current-username" />
+      <label for="current-email">Email</label>
+      <input type="email" name="email" id="current-email" />
       <label for="current-password">Password</label>
       <input type="text" name="password" id="current-password" />
-      <button type="submit">Login</button>
+      <button type="submit">Sign Up</button>
     </form>
   </body>
 </html>
