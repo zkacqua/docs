@@ -1109,10 +1109,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/hpp@^0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@types/hpp/-/hpp-0.2.4.tgz#5ccb06939124694ec8623fd8481427534195fd9b"
-  integrity sha512-1PPJtNNvQRKALKPCbTtWQtiqEqhi1Gkw6ROD4Cot2AIAmpBcEcZ3mKl9iujj2vcL7XuVv4ZiZGaHrfdRusUrBg==
+"@types/hpp@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@types/hpp/-/hpp-0.2.5.tgz#82e91b6adae5b3b463a2c89b92f745465ddd4eca"
+  integrity sha512-CBCYtHX0Gb2+jUs8BkLA4UbI/gBzsg93ffVPrVvrKQmXekcbQkxmwr//ccpHUdgVCD2IOaPsSJTXkCV6yeGaHg==
   dependencies:
     "@types/express" "*"
 
