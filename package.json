@@ -60,7 +60,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "redis": "^4.6.12",
-    "socket.io": "^4.7.2",
+    "socket.io": "^4.7.3",
     "typescript": "5.3.3",
     "validator": "^13.11.0",
     "yargs": "^17.7.2"
